@@ -1,0 +1,47 @@
+    - name: Add OpenJDK repository
+      apt_repository: repo="ppa:openjdk-r/ppa" update_cache=yes
+      become: yes
+      tags:
+      - java
+      - development
+
+    - name: Install OpenJDK 8
+      apt: pkg=openjdk-8-jre
+      become: yes
+      tags:
+      - java
+      - development
+
+    - name: Add Oracle Java repository
+      apt_repository: repo='ppa:webupd8team/java' update_cache=yes
+      become: yes
+      tags:
+      - java
+      - development
+
+    - name: Accept Oracle Java license
+      debconf: name={{ item }} question='shared/accepted-oracle-license-v1-1' value='true' vtype='select'
+      become: yes
+      with_items:
+      - oracle-java7-installer
+      - oracle-java8-installer
+      tags:
+      - java
+      - development
+
+    - name: Install Oracle Java
+      apt: pkg={{ item }}
+      become: yes
+      with_items:
+      - oracle-java7-installer
+      - oracle-java8-installer
+      tags:
+      - java
+      - development
+
+    - name: Install Maven 3
+      apt: pkg=maven
+      become: yes
+      tags:
+      - java
+      - development
