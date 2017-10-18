@@ -1,3 +1,4 @@
+
     - name: Add OpenJDK repository
       apt_repository: repo="ppa:openjdk-r/ppa" update_cache=yes
       become: yes
@@ -25,6 +26,27 @@
       with_items:
       - oracle-java7-installer
       - oracle-java8-installer
+      tags:
+      - java
+      - development
+
+    - name: Create oracle java cache directories
+      file: dest=/var/cache/{{ item }} state=directory
+      become: yes
+      with_items:
+      - oracle-jdk7-installer
+      - oracle-jdk8-installer
+      tags:
+      - java
+      - development
+
+
+    - name: Copy .tar.gz files for oracle java
+      get_url: url={{ item.archive }} dest=/var/cache/{{ item.cache_directory }}
+      become: yes
+      with_items:
+      - { archive: "https://www.dropbox.com/s/jq0b2wugzx1n494/jdk-7u80-linux-x64.tar.gz?dl=1", cache_directory: oracle-jdk7-installer }
+      - { archive: "https://www.dropbox.com/s/w4wfyvfnpcyfv6n/jdk-8u144-linux-x64.tar.gz?dl=1", cache_directory: oracle-jdk8-installer }
       tags:
       - java
       - development
