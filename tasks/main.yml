@@ -42,11 +42,11 @@
 
 
     - name: Copy .tar.gz files for oracle java
-      get_url: url={{ item.archive }} dest=/var/cache/{{ item.cache_directory }}
+      get_url: url={{ item.url }} dest=/var/cache/{{ item.cache_directory }}/{{ item.archive }}
       become: yes
       with_items:
-      - { archive: "https://www.dropbox.com/s/jq0b2wugzx1n494/jdk-7u80-linux-x64.tar.gz?dl=1", cache_directory: oracle-jdk7-installer }
-      - { archive: "https://www.dropbox.com/s/w4wfyvfnpcyfv6n/jdk-8u144-linux-x64.tar.gz?dl=1", cache_directory: oracle-jdk8-installer }
+      - { url: "https://www.dropbox.com/s/jq0b2wugzx1n494/jdk-7u80-linux-x64.tar.gz?dl=1", archive: "jdk-7u80-linux-x64.tar.gz", cache_directory: oracle-jdk7-installer }
+      - { url: "https://www.dropbox.com/s/w4wfyvfnpcyfv6n/jdk-8u144-linux-x64.tar.gz?dl=1", archive: "jdk-8u144-linux-x64.tar.gz", cache_directory: oracle-jdk8-installer }
       tags:
       - java
       - development
